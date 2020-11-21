@@ -1,0 +1,54 @@
+<strong>Mismatch on selfie and face on ID Document</strong>
+
+<p>
+Please validate if this is a valid Zimbabwean National ID Document or passport
+  <code>embedded:app:forms/document-verification.html</code>
+</p>
+
+
+<form class="form-container">
+  <div class="control-group">
+    <label class="control-label">First Name</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="firstName"
+             readonly="true"
+             class="form-control"/>
+    </div>
+    <label class="control-label">Surname</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="lastName"
+             readonly="true"
+             class="form-control"/>
+    </div>
+    <label class="control-label">Id Number</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="personNo"
+             readonly="true"
+             class="form-control"/>
+    </div>
+    <label class="control-label">ID Document of Applicant</label>
+  <div>
+    <img src="http://fbclptisoff001/WebServicE/#{personNo.jpg}" alt="Identity Document Image" width="50%" height="30%"/>
+  </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Document Valid ID Document?</label>
+    <div class="controls">
+      <input type="checkbox"
+             cam-variable-name="accountEligible"
+             cam-variable-type="Boolean"
+             name="approved"
+             class="form-control" />
+    </div>
+  </div>
+
+
+  <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+
+  </script>
+</form>

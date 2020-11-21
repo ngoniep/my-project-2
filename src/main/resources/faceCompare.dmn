@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1ofsaiq" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <decision id="faceCompareDecisionTable" name="What to do when images are different">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="imagesSimilar" camunda:inputVariable="imagesSimilar">
+        <inputExpression id="inputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1c89y1l" label="override" camunda:inputVariable="override">
+        <inputExpression id="LiteralExpression_04ebvne" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="proceed" name="proceed" typeRef="boolean" />
+      <rule id="DecisionRule_188rd02">
+        <inputEntry id="UnaryTests_1vspc01">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t3oqrz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tuptae">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07xx1y4">
+        <inputEntry id="UnaryTests_011tcw2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mcs0ux">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m97oub">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1mcpjan">
+        <inputEntry id="UnaryTests_0ftrw2t">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n105p4">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0202n0t">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

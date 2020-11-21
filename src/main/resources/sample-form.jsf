@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view>
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{camundaTaskForm.startTaskForm()}" />
+        </f:metadata>
+        <title>Task Form: #{task.name}</title>
+    </h:head>
+    <h:body>
+        <h1>#{task.name}</h1>
+        <h:form id="someForm">
+            <p>
+                Here you would see the actual form to work on the task in a design
+                normally either matching your task list or your business application
+                (or both in the best case).
+            </p>
+
+            <h:commandButton id="complete" value="Task Completed"
+                             action="#{camundaTaskForm.completeTask()}" />
+
+        </h:form>
+        <div>
+            <img src="http://fbclptisoff001/WebServicE/#{personNo.jpg}" alt="Identity Document Image" width="50%" height="30%"/>
+        </div>
+    </h:body>
+</f:view>
+</html>

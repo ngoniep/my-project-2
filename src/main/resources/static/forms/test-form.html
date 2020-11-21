@@ -1,0 +1,43 @@
+<strong xmlns="http://java.sun.com/jsf/html">Mismatch on selfie and face on ID Document</strong>
+
+<p>
+You are seeing this page because either the face comparison service is not up and running or because the face on
+  the ID of the client do not belong to the same person, please verify this:
+  <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form role="form">
+    <script cam-script type="text/form-script">
+    inject(['$rootScope', function($rootScope) {
+      $scope.userName = 'My User name';
+      $scope.imageUrl ='https://farm4.staticflickr.com/3261/2801924702_ffbdeda927_d.jpg';
+
+
+    }]);
+
+    camForm.on('form-loaded', function() {
+    // tell the form SDK to fetch the variable named 'invoiceData'
+    camForm.variableManager.fetchVariable('lastName');
+    camForm.variableManager.fetchVariable('firstName');
+
+  });
+  camForm.on('variables-fetched', function() {
+    // work with the variable (bind it to the current AngularJS $scope)
+    $scope.lastName = camForm.variableManager.variableValue('lastName');
+    $scope.firstName = camForm.variableManager.variableValue('firstName');
+
+
+  });
+  camForm.on('submit', function() {
+    // make the variableManager forget about the invoiceData variable
+    camForm.variableManager.destroyVariable('lastName');
+    camForm.variableManager.destroyVariable('firstName');
+
+  });
+  </script>
+
+    <h1>Greetings {{ firstName }}</h1>
+    <h1>Greetings {{ lastName }}</h1>
+    <img ng-src="{{ imageUrl }}" />
+
+</form>
