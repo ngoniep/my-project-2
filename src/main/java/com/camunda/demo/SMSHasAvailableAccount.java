@@ -1,5 +1,6 @@
 package com.camunda.demo;
 
+import com.camunda.demo.CamundaApplication;
 import com.camunda.demo.Model.ProductApplication;
 import com.camunda.demo.Service.GatewayServiceFeign;
 import com.camunda.demo.Service.SMSAlertService;

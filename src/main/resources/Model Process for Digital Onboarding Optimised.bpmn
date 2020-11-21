@@ -370,7 +370,9 @@
       <bpmn:outgoing>Flow_1rfyjvr</bpmn:outgoing>
       <bpmn:outgoing>Flow_0ct5s6w</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1rfyjvr" name="Yes" sourceRef="Gateway_0uawxkr" targetRef="Activity_07xzo32" />
+    <bpmn:sequenceFlow id="Flow_1rfyjvr" name="Yes" sourceRef="Gateway_0uawxkr" targetRef="Activity_07xzo32">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">1==1</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0ct5s6w" sourceRef="Gateway_0uawxkr" targetRef="Gateway_1fcbp7c" />
     <bpmn:userTask id="Activity_07xzo32" name="Perfom a Manual SSB Deduct at Source">
       <bpmn:incoming>Flow_1rfyjvr</bpmn:incoming>

@@ -1,5 +1,6 @@
 package com.camunda.demo;
 
+import com.camunda.demo.CamundaApplication;
 import com.camunda.demo.Model.*;
 import com.camunda.demo.Model.DTOs.*;
 import com.camunda.demo.Service.*;
