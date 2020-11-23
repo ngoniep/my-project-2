@@ -81,10 +81,11 @@ spring.datasource:
 #                show_sql: true
 #                format_sql: true
 #spring.h2.console.enabled: true
+
 camunda.bpm:
     admin-user:
         id: demo
-        password: demo
+        password: Demo12345*
         firstName: Demo
     filter:
         create: All tasks
@@ -99,6 +100,17 @@ eureka:
 
 #eureka.client.service-url.defaultZone= http://localhost:8761/eureka
 spring:
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: whatiemusah@gmail.com
+      password: bhhewfzduaefdphq
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
     data:
         mongodb:
             database: profiles_service
