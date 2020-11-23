@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    consul:
+      host: http://localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        ip-address: localhost
+        health-check-path: /health
+        heartbeat:
+          ttl-unit: s
+          ttl-value: 120
+        health-check-interval: 15s
+        health-check-timeout: 60s
+        health-check-critical-timeout: 5m
+      config:
+        format: yaml
+  application:
+    name: orchestration-service
+server:
+  port: 9091

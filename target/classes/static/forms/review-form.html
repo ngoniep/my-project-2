@@ -1,0 +1,167 @@
+<strong xmlns="http://java.sun.com/jsf/html">Mismatch on selfie and face on ID Document</strong>
+<strong xmlns="http://java.sun.com/jsf/html">Mismatch on selfie and face on ID Document</strong>
+
+<p>
+    You are seeing this page because either the face comparison service is not up and running or because the face on
+    the ID of the client do not belong to the same person, please verify this:
+    <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form class="form-container" role="form">
+    <div class="control-group">
+        <label class="control-label">First Name</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="firstName"
+                   readonly="true"
+                   class="form-control"
+                   />
+        </div>
+        <label class="control-label">Surname</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="lastName"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Customer ID Number</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="personNo"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Client's Phone Number</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="mobileNumber1"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Date of Birth</label>
+        <div class="controls">
+            <input type="Date"
+                   cam-variable-name="registrarDateOfBirth"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Customer Number</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="customerNumber"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Account Number</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="accountNumber"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">FCB Score</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="fcbScore"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">FCB Status</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="fcbStatus"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+
+        <label class="control-label">Confidence of Liveness</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="selfieLivenessScore"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Confidence of ID and Selfie Similarity</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="similarityScore"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Card Number Linked to account</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="cardNumber"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Sanction Screening Score</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="sanctionScore"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Client Address</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="address"
+                   readonly="true"
+                   class="form-control"/>
+        </div>
+
+
+    </div>
+
+<div>
+    <label class="control-label">Below are the documents that have been provided by the client</label>
+</div>
+
+    <script cam-script type="text/form-script">
+    inject(['$rootScope', function($rootScope) {
+      $scope.userName = 'My User name';
+     // $scope.imageUrl ='http://10.170.3.46/WebService/testImage.png';
+
+
+    }]);
+
+    camForm.on('form-loaded', function() {
+    // tell the form SDK to fetch the variable named 'invoiceData'
+    camForm.variableManager.fetchVariable('idImageUrl');
+    camForm.variableManager.fetchVariable('selfieImageUrl');
+    camForm.variableManager.fetchVariable('proofOfResImageUrl');
+    camForm.variableManager.fetchVariable('signatureImageUrl');
+
+  });
+  camForm.on('variables-fetched', function() {
+    // work with the variable (bind it to the current AngularJS $scope)
+    $scope.idImageUrl = camForm.variableManager.variableValue('idImageUrl');
+    $scope.selfieImageUrl = camForm.variableManager.variableValue('selfieImageUrl');
+    $scope.proofOfResImageUrl = camForm.variableManager.variableValue('proofOfResImageUrl');
+    $scope.signatureImageUrl = camForm.variableManager.variableValue('signatureImageUrl');
+
+
+  });
+  camForm.on('submit', function() {
+    // make the variableManager forget about the invoiceData variable
+    camForm.variableManager.destroyVariable('idImageUrl');
+    camForm.variableManager.destroyVariable('selfieImageUrl');
+    camForm.variableManager.destroyVariable('proofOfResImageUrl');
+    camForm.variableManager.destroyVariable('signatureImageUrl');
+
+  });
+  </script>
+    <div class="control-group">
+    <img ng-src="{{ idImageUrl }}" alt="ID document" width="20%" height="20%" />
+
+    <img ng-src="{{ selfieImageUrl }}" alt="Selfie of Client" width="20%" height="20%" />
+
+    <img ng-src="{{ proofOfResImageUrl }}" alt="Proof of Residence" width="20%" height="20%" />
+
+    <img ng-src="{{ signatureImageUrl }}" alt="Client Signature" width="20%" height="20%" />
+    </div>
+
+
+
+
+</form>

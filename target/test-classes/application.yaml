@@ -1,0 +1,50 @@
+#spring.datasource:
+#    url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE
+#    #shareable h2 database: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+#    username: sa
+#    password: sa
+#spring.h2.console.enabled: true
+#camunda.bpm:
+#    admin-user:
+#        id: demo
+#        password: demo
+#        firstName: Demo
+#    filter:
+#        create: All tasks
+#    authorization:
+server.port: 0
+
+#eureka:
+#    client:
+#        register-with-eureka: true
+#        service-url:
+#            default-zone: http://localhost:8761/eureka
+##eureka.client.service-url.defaultZone= http://localhost:8761/eureka
+#spring:
+#    data:
+#        mongodb:
+#            database: profiles_service
+#            #authentication-database: admin
+#            #username: root
+#            #password: root
+#            port: 27017
+#            host: localhost
+#            uri: mongodb://localhost:27017
+#    main:
+#        allow-bean-definition-overriding: true
+#        camunda.bpm.process-engine-name=testEngine
+#        camunda.bpm.job-execution.enabled=false
+#        camunda.bpm.job-execution.active=true
+#        camunda.bpm.database.schema-update=true
+#        camunda.bpm.history-level=audit
+#camunda:
+#    bpm:
+#        database:
+#            schema-update: true
+#        job-execution:
+#            enabled: false
+#        authorization:
+#            enabled: true
+#            tenant-check-enabled: true
+#        process-engine-name: testEngine
+#        history-level: audit

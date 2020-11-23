@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-horizontal"
+      role="form">
+
+    <p>Do you approve this Leave Application?</p>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Attachment</label>
+        <div class="form-control-static col-md-10">
+            <a cam-file-download="attachment"></a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Employee Name</label>
+        <div class="col-md-10">
+            <input cam-variable-name="employeeName"
+                   type="text"
+                   name="fullName"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-md-10">
+            <input cam-variable-name="employeeEmail"
+                   type="text"
+                   name="employeeEmail"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Leave Type</label>
+        <div class="col-md-10">
+            <input cam-variable-name="leaveType"
+                   type="text"
+                   name="leaveType"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+<div class="form-group">
+        <label class="control-label col-md-2">Start Date</label>
+        <div class="col-md-10">
+            <input cam-variable-name="startDate"
+                   type="text"
+                   name="startDate"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">End Date</label>
+        <div class="col-md-10">
+            <input cam-variable-name="endDate"
+                   type="text"
+                   name="endDate"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Opening Leave Days</label>
+        <div class="col-md-10">
+            <input cam-variable-name="openingLeaveBalance"
+                   type="text"
+                   name="openingLeaveBalance"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Number of Days Deductable</label>
+        <div class="col-md-10">
+            <input cam-variable-name="numDaysApplied"
+                   type="text"
+                   name="numDaysApplied"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Closing Leave Days</label>
+        <div class="col-md-10">
+            <input cam-variable-name="closingLeaveBalance"
+                   type="text"
+                   name="closingLeaveBalance"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Remarks</label>
+        <div class="col-md-10">
+            <input cam-variable-name="comment"
+                   type="text"
+                   name="comment"
+                   class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            <div class="checkbox">
+                <label>
+                    <input cam-variable-name="approved"
+                           cam-variable-type="Boolean"
+                           type="checkbox"
+                           name="approved"
+                           class="form-control" />
+                    Do you approve?
+                </label>
+            </div>
+        </div>
+    </div><!--
+    <div class="form-group">
+        <label class="control-label col-md-2">End Date</label>
+        <div class="col-md-10">
+            <input cam-variable-name="endDate"
+                   type="text"
+                   ng-model="endDate"
+                   name="endDate"
+                   readonly="true"
+                   class="form-control" />
+        </div>
+    </div>
+
+-->
+</form>
+
+</body>
+</html>

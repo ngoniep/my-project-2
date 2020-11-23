@@ -1,0 +1,118 @@
+<strong xmlns="http://java.sun.com/jsf/html">Treaty Input Form</strong>
+
+<p>
+    Kindly enter your treaty here
+    <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form class="form-container" role="form">
+    <div class="control-group">
+        <label class="control-label">Life Cycle Status</label>
+        <div class="controls">
+            <select cam-variable-name="lifeCycleStatus"
+                    cam-variable-type="String"
+                    class="form-control"
+            >
+                <option value="renewal">Renewal</option>
+                <option value="new">New</option>
+            </select>
+        </div>
+        <label class="control-label">Name Of Reinsured</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="nameOfReinsured"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Name of Retail Broker</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="nameOfRetailBroker"
+                   class="form-control"/>
+        </div>
+
+        <label class="control-label">Limit Of Liability</label>
+        <div class="controls">
+            <input type="text"
+                   cam-variable-name="limitOfLiability"
+                   class="form-control"/>
+        </div>
+        <label class="control-label">Type Of Cover</label>
+        <div class="controls">
+            <select cam-variable-name="typeOfCover"
+                    cam-variable-type="String"
+                    class="form-control"
+            >
+                <option value="motor">Motor</option>
+                <option value="fire">Fire</option>
+                <option value="misc">Miscelleneous</option>
+            </select>
+        </div>
+
+    </div>
+    <label class="control-label">Loss Ratio This Year</label>
+    <div class="controls">
+        <input type="text"
+               cam-variable-name="lossRatioThisYear"
+               class="form-control"/>
+    </div>
+    <label class="control-label">Loss Ratio Last Year</label>
+    <div class="controls">
+        <input type="text"
+               cam-variable-name="lossRatioLastYear"
+               class="form-control"/>
+    </div>
+    <label class="control-label">Loss Ratio Two Years Back</label>
+    <div class="controls">
+        <input type="text"
+               cam-variable-name="lossRatioTwoYearsBack"
+               class="form-control"/>
+    </div>
+    <label class="control-label">Gross Premium</label>
+    <div class="controls">
+        <input type="long"
+               cam-variable-name="grossPremium"
+               class="form-control"/>
+    </div>
+    <label class="control-label">Commission</label>
+    <div class="controls">
+        <input type="long"
+               cam-variable-name="commission"
+               class="form-control"/>
+    </div>
+
+
+
+    <script cam-script type="text/form-script">
+    inject(['$rootScope', function($rootScope) {
+      $scope.userName = 'My User name';
+     // $scope.imageUrl ='http://10.170.3.46/WebService/testImage.png';
+
+
+    }]);
+
+    camForm.on('form-loaded', function() {
+    // tell the form SDK to fetch the variable named 'invoiceData'
+    camForm.variableManager.fetchVariable('idImageUrl');
+    camForm.variableManager.fetchVariable('selfieImageUrl');
+
+  });
+  camForm.on('variables-fetched', function() {
+    // work with the variable (bind it to the current AngularJS $scope)
+    $scope.idImageUrl = camForm.variableManager.variableValue('idImageUrl');
+    $scope.selfieImageUrl = camForm.variableManager.variableValue('selfieImageUrl');
+
+
+  });
+  camForm.on('submit', function() {
+    // make the variableManager forget about the invoiceData variable
+    camForm.variableManager.destroyVariable('idImageUrl');
+    camForm.variableManager.destroyVariable('selfieImageUrl');
+
+  });
+  </script>
+
+
+
+
+
+</form>

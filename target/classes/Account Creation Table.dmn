@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_1rtatld" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <decision id="accountCreationPossible" name="Decision 1">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="accountOpeningEligible" name="accountOpeningEligible" typeRef="boolean" />
+      <rule id="DecisionRule_05rqt6d">
+        <description>true</description>
+        <inputEntry id="UnaryTests_0a14fnc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_053qrku">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

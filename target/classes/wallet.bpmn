@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0e0qjjm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
+  <bpmn:process id="wallet" isExecutable="true">
+    <bpmn:startEvent id="Event_16tdouw" camunda:initiator="Micro Loan Application">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="requestNationalID" label="National ID Number" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0rpqbrc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_0ummlme">
+      <bpmn:incoming>Flow_0ssc5z2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_0ycmthj" name="Create Account In Postilion" camunda:asyncBefore="true" camunda:class="com.camunda.demo.InstantCardCreationDelegate">
+      <bpmn:incoming>Flow_0rpqbrc</bpmn:incoming>
+      <bpmn:incoming>Flow_1c1rbsz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o49a2d</bpmn:outgoing>
+      <bpmn:outgoing>Flow_09s8060</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:task id="Activity_04qdtvs" name=" Check if KYC at MNO is similar to that submitted by client if not done">
+      <bpmn:incoming>Flow_1o49a2d</bpmn:incoming>
+      <bpmn:outgoing>Flow_157uqhj</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1o49a2d" sourceRef="Activity_0ycmthj" targetRef="Activity_04qdtvs">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{cardLinkingSuccessful}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_157uqhj" sourceRef="Activity_04qdtvs" targetRef="Activity_0obtv33" />
+    <bpmn:userTask id="Activity_1ao0f9m" name="Review application">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="accountNumber" label="Account Number" type="string" defaultValue="#{accountNumber}" />
+          <camunda:formField id="firstName" label="First Name" type="string" defaultValue="#{firstName}" />
+          <camunda:formField id="surname" label="Surname" type="string" defaultValue="#{lastName}" />
+          <camunda:formField id="instantCardCreationMessage" label="Card Creation Message" type="string" defaultValue="#{instantCardCreationMessage}" />
+          <camunda:formField id="instantCardCreationResponseCode" label="Card Creation Response Code" type="string" defaultValue="#{instantCardCreationResponseCode}" />
+          <camunda:formField id="instantCardCreationRetrievalRef" label="Instant Card Creation - Retrieval Ref" type="string" defaultValue="#{instantCardCreationRetrievalRef}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06gjm9w</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ssc5z2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0ssc5z2" sourceRef="Activity_1ao0f9m" targetRef="Event_0ummlme" />
+    <bpmn:serviceTask id="Activity_0obtv33" name="Notify the client that their account is ready" camunda:class="com.camunda.demo.SMSAlertsDelegate">
+      <bpmn:incoming>Flow_157uqhj</bpmn:incoming>
+      <bpmn:outgoing>Flow_06gjm9w</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_06gjm9w" sourceRef="Activity_0obtv33" targetRef="Activity_1ao0f9m" />
+    <bpmn:sequenceFlow id="Flow_0rpqbrc" sourceRef="Event_16tdouw" targetRef="Activity_0ycmthj" />
+    <bpmn:intermediateCatchEvent id="Event_0ho7kcb" name="wait 2 Minutes">
+      <bpmn:incoming>Flow_09s8060</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c1rbsz</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1hnqqnw">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_09s8060" sourceRef="Activity_0ycmthj" targetRef="Event_0ho7kcb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not cardLinkingSuccessful}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1c1rbsz" sourceRef="Event_0ho7kcb" targetRef="Activity_0ycmthj" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="wallet">
+      <bpmndi:BPMNShape id="Event_16tdouw_di" bpmnElement="Event_16tdouw" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ummlme_di" bpmnElement="Event_0ummlme" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1162" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xg9it3_di" bpmnElement="Activity_0ycmthj" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="340" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04qdtvs_di" bpmnElement="Activity_04qdtvs" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="520" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1o49a2d_di" bpmnElement="Flow_1o49a2d" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="440" y="120" />
+        <di:waypoint x="520" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_157uqhj_di" bpmnElement="Flow_157uqhj" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="620" y="120" />
+        <di:waypoint x="720" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1ao0f9m_di" bpmnElement="Activity_1ao0f9m" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="940" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ssc5z2_di" bpmnElement="Flow_0ssc5z2" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1040" y="120" />
+        <di:waypoint x="1162" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0obtv33_di" bpmnElement="Activity_0obtv33" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="720" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_06gjm9w_di" bpmnElement="Flow_06gjm9w" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="820" y="120" />
+        <di:waypoint x="940" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rpqbrc_di" bpmnElement="Flow_0rpqbrc" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="340" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0ho7kcb_di" bpmnElement="Event_0ho7kcb" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="372" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="354" y="298" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_09s8060_di" bpmnElement="Flow_09s8060" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="390" y="160" />
+        <di:waypoint x="390" y="252" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c1rbsz_di" bpmnElement="Flow_1c1rbsz" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="372" y="270" />
+        <di:waypoint x="310" y="270" />
+        <di:waypoint x="310" y="140" />
+        <di:waypoint x="340" y="140" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

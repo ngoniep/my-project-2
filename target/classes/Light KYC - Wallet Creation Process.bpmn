@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0e0qjjm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.0">
+  <bpmn:process id="KycLiteAccount" isExecutable="true">
+    <bpmn:startEvent id="Event_16tdouw" camunda:initiator="Micro Loan Application">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="requestNationalID" label="National ID Number" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_03dmvgy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1fidqj7" name="Details confirmed">
+      <bpmn:incoming>Flow_054wkcl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gd034i</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0fwch22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0zlq0o9">
+      <bpmn:incoming>Flow_0gd034i</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0gd034i" name="No" sourceRef="Gateway_1fidqj7" targetRef="Event_0zlq0o9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not rgStatusValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1rkb0b7" name="Perfom FCB Check" camunda:class="com.camunda.demo.FCBCheckDelegate">
+      <bpmn:incoming>Flow_06gjm9w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gk0s79</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1dgwc5a" name="Internal Sanctions Screening" camunda:class="com.camunda.demo.InternalSanctionsDelegate">
+      <bpmn:incoming>Flow_1gk0s79</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hmhntr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0ummlme">
+      <bpmn:incoming>Flow_1n0iskj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_0ycmthj" name="Create Account In Postilion" camunda:asyncAfter="true" camunda:class="com.camunda.demo.InstantCardCreationDelegate">
+      <bpmn:incoming>Flow_08w2cwn</bpmn:incoming>
+      <bpmn:incoming>Flow_0bvoryi</bpmn:incoming>
+      <bpmn:incoming>Flow_01ympyn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o49a2d</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1qkz4hc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_08w2cwn" sourceRef="Activity_1r78epa" targetRef="Activity_0ycmthj" />
+    <bpmn:serviceTask id="Activity_1r78epa" name=" Check if KYC at MNO is similar to that submitted by client" camunda:expression="1==1">
+      <bpmn:incoming>Flow_03217vu</bpmn:incoming>
+      <bpmn:outgoing>Flow_08w2cwn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1iymyzz" name="No" sourceRef="Activity_1cx3tgu" targetRef="Activity_0zq01k8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not registrarGeneralDetailsValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_0zq01k8" name="Manually Compare Details">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="registrarGeneralDetailsValid" label="Registrar Details Valid" type="boolean" defaultValue="#{registrarGeneralDetailsValid}" />
+          <camunda:formField id="firstName" label="First Name" type="string" defaultValue="#{firstName}" />
+          <camunda:formField id="registrarFirstName" label="Registrar First Name" type="string" defaultValue="#{registrarFirstName}" />
+          <camunda:formField id="surname" label="Surname" type="string" defaultValue="#{surname}" />
+          <camunda:formField id="registrarSurname" label="Registrar Surname" type="string" defaultValue="#{registrarSurname}" />
+          <camunda:formField id="firstNameValid" label="First Name Similar?" type="boolean" defaultValue="#{firstNameValid}" />
+          <camunda:formField id="surnameValid" label="Is Surname Valid?" type="boolean" defaultValue="#{surnameValid}" />
+          <camunda:formField id="gender" label="Gender Supplied by Client" type="string" defaultValue="#{gender}" />
+          <camunda:formField id="registrarGender" label="Gender from Registrar General" type="string" defaultValue="#{registrarGender}" />
+          <camunda:formField id="genderValid" label="Gender Valid ?" type="boolean" defaultValue="#{genderValid}" />
+          <camunda:formField id="registrarStatus" label="Registrar Status (A=Active, D=Deceased, E=Non Existent ID)" type="string" defaultValue="#{registrarStatus}" />
+          <camunda:formField id="rgStatusValid" type="boolean" defaultValue="#{rgStatusValid}" />
+          <camunda:formField id="dateOfBirth" label="Date of Birth Supplied By Client" type="string" defaultValue="#{dateOfBirth}" />
+          <camunda:formField id="registrarDateOfBirth" label="Registrar Date of Birth" type="string" defaultValue="#{registrarDateOfBirth}" />
+          <camunda:formField id="dateOfBirthValid" label="Date of Birth Valid?" type="boolean" defaultValue="#{dateOfBirthValid}" />
+          <camunda:formField id="recheckRG" label="Recheck RG" type="boolean" defaultValue="false" />
+          <camunda:formField id="personNo" label="ID Number" type="string" defaultValue="#{personNo}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1iymyzz</bpmn:incoming>
+      <bpmn:outgoing>Flow_054wkcl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0i0yopm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_054wkcl" name="Do Not Recheck RG" sourceRef="Activity_0zq01k8" targetRef="Gateway_1fidqj7">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not recheckRG}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1cx3tgu" name="Compare Identity Information with RG" camunda:asyncBefore="true" camunda:class="com.camunda.demo.RegistrarGeneralDelegate">
+      <bpmn:incoming>Flow_0i0yopm</bpmn:incoming>
+      <bpmn:incoming>Flow_0fv0wyi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1iymyzz</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1e6lny7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_03dmvgy" sourceRef="Event_16tdouw" targetRef="Activity_0obzejg" />
+    <bpmn:sequenceFlow id="Flow_1o49a2d" name="Card Linking Success" sourceRef="Activity_0ycmthj" targetRef="Activity_04qdtvs">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{cardLinkingSuccessful}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_157uqhj" sourceRef="Activity_04qdtvs" targetRef="Activity_0obtv33" />
+    <bpmn:sequenceFlow id="Flow_1gk0s79" sourceRef="Activity_1rkb0b7" targetRef="Activity_1dgwc5a" />
+    <bpmn:sequenceFlow id="Flow_0hmhntr" sourceRef="Activity_1dgwc5a" targetRef="Activity_1ao0f9m" />
+    <bpmn:userTask id="Activity_1ao0f9m" name="Review application">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="accountNumber" label="Account Number" type="string" defaultValue="#{accountNumber}" />
+          <camunda:formField id="fcbScoreGood" label="FCB Score Good?" type="boolean" defaultValue="#{fcbScoreGood}" />
+          <camunda:formField id="fcbStatus" label="FCB Status" type="string" defaultValue="#{fcbStatus}" />
+          <camunda:formField id="firstName" label="First Name" type="string" defaultValue="#{firstName}" />
+          <camunda:formField id="selfieLivenessScore" label="Selfie Liveness Score" type="string" defaultValue="#{selfieLivenessScore}" />
+          <camunda:formField id="fcbScore" label="FCB Score" type="string" defaultValue="${fcbScore}" />
+          <camunda:formField id="surname" label="Client First Name" type="string" defaultValue="#{surname}" />
+          <camunda:formField id="instantCardCreationMessage" label="Card Creation Message" type="string" defaultValue="#{instantCardCreationMessage}" />
+          <camunda:formField id="instantCardCreationResponseCode" label="Card Creation Response Code" type="string" defaultValue="#{instantCardCreationResponseCode}" />
+          <camunda:formField id="instantCardCreationRetrievalRef" label="Instant Card Creation - Retrieval Ref" type="string" defaultValue="#{instantCardCreationRetrievalRef}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hmhntr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ssc5z2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0ssc5z2" sourceRef="Activity_1ao0f9m" targetRef="Activity_1t8feft" />
+    <bpmn:serviceTask id="Activity_0obtv33" name="Notify the client that their account is ready" camunda:class="com.camunda.demo.SMSAlertsDelegate">
+      <bpmn:incoming>Flow_157uqhj</bpmn:incoming>
+      <bpmn:outgoing>Flow_06gjm9w</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_06gjm9w" sourceRef="Activity_0obtv33" targetRef="Activity_1rkb0b7" />
+    <bpmn:serviceTask id="Activity_0aat0qp" name="Liveness Validation" camunda:class="com.camunda.demo.LivenessDelegate">
+      <bpmn:incoming>Flow_0yk9igw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n0iskj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1n0iskj" sourceRef="Activity_0aat0qp" targetRef="Event_0ummlme" />
+    <bpmn:serviceTask id="Activity_1t8feft" name="Face Compare" camunda:class="com.camunda.demo.FaceCompareDelegate">
+      <bpmn:incoming>Flow_0ssc5z2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yk9igw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0yk9igw" sourceRef="Activity_1t8feft" targetRef="Activity_0aat0qp" />
+    <bpmn:exclusiveGateway id="Gateway_0582fxx" name="Channel">
+      <bpmn:incoming>Flow_0fwch22</bpmn:incoming>
+      <bpmn:incoming>Flow_1e6lny7</bpmn:incoming>
+      <bpmn:outgoing>Flow_03217vu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0bvoryi</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_03217vu" name="USSD" sourceRef="Gateway_0582fxx" targetRef="Activity_1r78epa">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{isUSSD}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0fwch22" name="Yes" sourceRef="Gateway_1fidqj7" targetRef="Gateway_0582fxx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{rgStatusValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1e6lny7" sourceRef="Activity_1cx3tgu" targetRef="Gateway_0582fxx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{registrarGeneralDetailsValid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0bvoryi" sourceRef="Gateway_0582fxx" targetRef="Activity_0ycmthj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not isUSSD}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:intermediateCatchEvent id="Event_07r45xq" name="wait 2 Minutes">
+      <bpmn:incoming>Flow_1qkz4hc</bpmn:incoming>
+      <bpmn:outgoing>Flow_01ympyn</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_04nzlfy">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1qkz4hc" name="Card Linking Failure" sourceRef="Activity_0ycmthj" targetRef="Event_07r45xq">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not cardLinkingSuccessful}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_01ympyn" sourceRef="Event_07r45xq" targetRef="Activity_0ycmthj" />
+    <bpmn:serviceTask id="Activity_04qdtvs" name=" Check if KYC at MNO is similar to that submitted by client if not done" camunda:expression="1==1">
+      <bpmn:incoming>Flow_1o49a2d</bpmn:incoming>
+      <bpmn:outgoing>Flow_157uqhj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0i0yopm" name="Recheck RG" sourceRef="Activity_0zq01k8" targetRef="Activity_1cx3tgu">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{recheckRG}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0obzejg" name="Verify Customer Existence" camunda:asyncBefore="true" camunda:class="com.camunda.demo.VerifyClientExistenceDelegate">
+      <bpmn:incoming>Flow_03dmvgy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fv0wyi</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0fv0wyi" sourceRef="Activity_0obzejg" targetRef="Activity_1cx3tgu" />
+    <bpmn:textAnnotation id="TextAnnotation_0pdq4px">
+      <bpmn:text>Compares if the First name, Last name, DOB, Gender on the ID document and that from RG  are exactly the same. It is expected that OCR will capture this accurately. Additionally it also checks if the person is not deceased, on RG's records</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0kxs4df">
+      <bpmn:text>This interface is currently not available</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1kznw1t" sourceRef="Activity_1r78epa" targetRef="TextAnnotation_0kxs4df" />
+    <bpmn:textAnnotation id="TextAnnotation_0ce2w5j">
+      <bpmn:text>This Interface Is currently Not available</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0j0cnai" sourceRef="Activity_04qdtvs" targetRef="TextAnnotation_0ce2w5j" />
+    <bpmn:association id="Association_0gzw3re" sourceRef="Activity_1cx3tgu" targetRef="TextAnnotation_0pdq4px" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="KycLiteAccount">
+      <bpmndi:BPMNShape id="Event_16tdouw_di" bpmnElement="Event_16tdouw" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="142" y="472" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0pdq4px_di" bpmnElement="TextAnnotation_0pdq4px" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="490" y="80" width="260" height="90" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1fidqj7_di" bpmnElement="Gateway_1fidqj7" isMarkerVisible="true" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="845" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="772" y="313" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0zlq0o9_di" bpmnElement="Event_0zlq0o9" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="852" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0gd034i_di" bpmnElement="Flow_0gd034i" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="870" y="385" />
+        <di:waypoint x="870" y="442" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="874" y="411" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1rkb0b7_di" bpmnElement="Activity_1rkb0b7" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1709" y="365" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dgwc5a_di" bpmnElement="Activity_1dgwc5a" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1874" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ummlme_di" bpmnElement="Event_0ummlme" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="2552" y="391" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xg9it3_di" bpmnElement="Activity_0ycmthj" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1109" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_08w2cwn_di" bpmnElement="Flow_08w2cwn" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1159" y="240" />
+        <di:waypoint x="1159" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0kxs4df_di" bpmnElement="TextAnnotation_0kxs4df">
+        <dc:Bounds x="1200" y="80" width="170" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1kznw1t_di" bpmnElement="Association_1kznw1t">
+        <di:waypoint x="1199" y="166" />
+        <di:waypoint x="1245" y="134" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ce2w5j_di" bpmnElement="TextAnnotation_0ce2w5j">
+        <dc:Bounds x="1290" y="265" width="140" height="34" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0j0cnai_di" bpmnElement="Association_0j0cnai">
+        <di:waypoint x="1360" y="370" />
+        <di:waypoint x="1361" y="299" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1q66nud_di" bpmnElement="Activity_1r78epa" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="1100" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1iymyzz_di" bpmnElement="Flow_1iymyzz" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <di:waypoint x="630" y="450" />
+        <di:waypoint x="630" y="215" />
+        <di:waypoint x="820" y="215" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="638" y="338" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0zq01k8_di" bpmnElement="Activity_0zq01k8" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="820" y="175" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_054wkcl_di" bpmnElement="Flow_054wkcl" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="870" y="255" />
+        <di:waypoint x="870" y="335" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="889" y="292" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1cx3tgu_di" bpmnElement="Activity_1cx3tgu" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="570" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0gzw3re_di" bpmnElement="Association_0gzw3re" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <di:waypoint x="620" y="446" />
+        <di:waypoint x="620" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03dmvgy_di" bpmnElement="Flow_03dmvgy" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="178" y="490" />
+        <di:waypoint x="310" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o49a2d_di" bpmnElement="Flow_1o49a2d" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1209" y="410" />
+        <di:waypoint x="1310" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1229" y="376" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_157uqhj_di" bpmnElement="Flow_157uqhj" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1410" y="410" />
+        <di:waypoint x="1520" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gk0s79_di" bpmnElement="Flow_1gk0s79" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1809" y="405" />
+        <di:waypoint x="1874" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hmhntr_di" bpmnElement="Flow_0hmhntr" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1974" y="410" />
+        <di:waypoint x="2070" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1ao0f9m_di" bpmnElement="Activity_1ao0f9m" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="2070" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ssc5z2_di" bpmnElement="Flow_0ssc5z2" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="2170" y="410" />
+        <di:waypoint x="2230" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0obtv33_di" bpmnElement="Activity_0obtv33" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1520" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_06gjm9w_di" bpmnElement="Flow_06gjm9w" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1620" y="410" />
+        <di:waypoint x="1709" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0aat0qp_di" bpmnElement="Activity_0aat0qp" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="2380" y="369" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1n0iskj_di" bpmnElement="Flow_1n0iskj" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="2480" y="409" />
+        <di:waypoint x="2552" y="409" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1t8feft_di" bpmnElement="Activity_1t8feft" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="2230" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0yk9igw_di" bpmnElement="Flow_0yk9igw" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="2330" y="410" />
+        <di:waypoint x="2380" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_0582fxx_di" bpmnElement="Gateway_0582fxx" isMarkerVisible="true" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="885" y="545" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="929" y="582" width="41" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_03217vu_di" bpmnElement="Flow_03217vu" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="935" y="570" />
+        <di:waypoint x="1000" y="570" />
+        <di:waypoint x="1000" y="200" />
+        <di:waypoint x="1100" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1000" y="383" width="31" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fwch22_di" bpmnElement="Flow_0fwch22" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="895" y="360" />
+        <di:waypoint x="910" y="360" />
+        <di:waypoint x="910" y="545" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="909" y="513" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e6lny7_di" bpmnElement="Flow_1e6lny7" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="630" y="530" />
+        <di:waypoint x="630" y="570" />
+        <di:waypoint x="885" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bvoryi_di" bpmnElement="Flow_0bvoryi" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="935" y="570" />
+        <di:waypoint x="1150" y="570" />
+        <di:waypoint x="1150" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_07r45xq_di" bpmnElement="Event_07r45xq" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="1252" y="552" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1234" y="598" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1qkz4hc_di" bpmnElement="Flow_1qkz4hc" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="1209" y="430" />
+        <di:waypoint x="1270" y="430" />
+        <di:waypoint x="1270" y="552" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1279" y="486" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01ympyn_di" bpmnElement="Flow_01ympyn" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <di:waypoint x="1250" y="570" />
+        <di:waypoint x="1159" y="570" />
+        <di:waypoint x="1159" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_02n3yeb_di" bpmnElement="Activity_04qdtvs" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="1310" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0i0yopm_di" bpmnElement="Flow_0i0yopm">
+        <di:waypoint x="820" y="215" />
+        <di:waypoint x="745" y="215" />
+        <di:waypoint x="745" y="490" />
+        <di:waypoint x="670" y="490" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="758" y="383" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0obzejg_di" bpmnElement="Activity_0obzejg" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="310" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0fv0wyi_di" bpmnElement="Flow_0fv0wyi" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="410" y="490" />
+        <di:waypoint x="570" y="490" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
