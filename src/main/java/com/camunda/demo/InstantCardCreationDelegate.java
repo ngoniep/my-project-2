@@ -1,9 +1,15 @@
 package com.camunda.demo;
 
-import com.camunda.demo.CamundaApplication;
-import com.camunda.demo.Model.*;
-import com.camunda.demo.Model.DTOs.*;
-import com.camunda.demo.Service.*;
+import com.camunda.demo.Model.Account;
+import com.camunda.demo.Model.DTOs.Address;
+import com.camunda.demo.Model.DTOs.ContactDetails;
+import com.camunda.demo.Model.DTOs.PersonalDetailsDTO;
+import com.camunda.demo.Model.InstantAccountCreationResponse;
+import com.camunda.demo.Model.InstantAccountRequest;
+import com.camunda.demo.Model.ProductApplication;
+import com.camunda.demo.Service.GatewayServiceFeign;
+import com.camunda.demo.Service.PersonFeignService;
+import com.camunda.demo.Service.PostilionAccountFeign;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,8 +153,14 @@ public class InstantCardCreationDelegate implements JavaDelegate {
                 .build();
             if(delegateExecution.getProcessDefinitionId().toUpperCase().contains("WALLET"))
                 instantAccountRequest.setType("Bank_Digi_Wallet");
-            else
-                instantAccountRequest.setType("");
+            else if(delegateExecution.getProcessDefinitionId().contains("KycLiteAccount")) {
+                try{
+                    instantAccountRequest.setType(delegateExecution.getVariable("cardProgram").toString());
+                }catch(Exception ignored){
+                    instantAccountRequest.setType("");
+                }
+
+            }
             String address = "";
             if (personalDetails.getAddresses() != null) {
                 for (Address add : personalDetails.getAddresses()) {

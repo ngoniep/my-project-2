@@ -5,12 +5,10 @@ import com.camunda.demo.Model.ProductApplication;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -41,6 +39,9 @@ public class PersonalDetailsDTO {
     String signatureBase64String;
     String customerIdNumber;
     String primaryPhoneNumber;
+    double idSelfieMatchScore;
+    double selfieLivelinessScore;
+    boolean isRegistrarVerified;
 
     @OneToMany
     List<ContactDetails> contactDetails;

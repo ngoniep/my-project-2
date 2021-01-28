@@ -1,21 +1,18 @@
 package com.camunda.demo;
 
 import com.camunda.demo.BusinessModels.PersonDTO;
-import com.camunda.demo.CamundaApplication;
 import com.camunda.demo.Model.DTOs.PersonalDetailsDTO;
 import com.camunda.demo.Model.ProductApplication;
-import com.camunda.demo.Service.*;
-import com.google.gson.Gson;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
+import com.camunda.demo.Service.FileCreationService;
+import com.camunda.demo.Service.GatewayServiceFeign;
+import com.camunda.demo.Service.PersonFeignService;
+import com.camunda.demo.Service.RegistrarGeneralFeign;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 
@@ -34,13 +31,16 @@ public class RegistrarGeneralDelegate implements JavaDelegate {
     @Autowired
     PersonFeignService.PersonClient identityUpdate;
 
+    @Autowired
+    RegistrarGeneralFeign.RegistrarGeneralClient registrarGeneralClient;
+
 
 //    @Value("${configurations.getGatewayUrl:http://10.170.3.46:8086/handler/api/}")
 //    String getGatewayUrl;
-    @Value("${configurations.oauthUser:andrew1}")
-    String oauthUser;
-    @Value("${configurations.outhPassword:password}")
-    String outhPassword;
+   // @Value("${configurations.oauthUser:andrew1}")
+   // String oauthUser;
+   // @Value("${configurations.outhPassword:password}")
+  //  String outhPassword;
 //    @Value("${configurations.oauthUrl:http://10.170.4.67:9193/auth/api/oauth/token}")
 //    String oauthUrl;
 
@@ -120,14 +120,15 @@ public class RegistrarGeneralDelegate implements JavaDelegate {
             try {
             if(!personNoValidId)
                 personNo=personalDetails.getCustomerIdNumber();
-            HttpResponse<String> response = Unirest.get("http://10.170.3.40:8080/registrar-service/person/" + personNo)
+           /* HttpResponse<String> response = Unirest.get("http://10.170.3.40:8080/registrar-service/person/" + personNo)
                 //.header("Authorization", "Bearer "+new MyConfigurations(oauthUrl,"bW9iaWxlOnBpbg==",oauthUser,outhPassword).getToken())
                     .asString();
 
             String response1=response.getBody();
 
             Gson gson = new Gson();
-            PersonDTO personDTO = gson.fromJson(response1, PersonDTO.class);
+            PersonDTO personDTO = gson.fromJson(response1, PersonDTO.class);*/
+          PersonDTO personDTO=registrarGeneralClient.getPersonalDetails(personNo);
             delegateExecution.setVariable("registrarFirstName", personDTO.getFirstName());
             delegateExecution.setVariable("isUSSD",true);
             delegateExecution.setVariable("registrarSurname", personDTO.getSurname());

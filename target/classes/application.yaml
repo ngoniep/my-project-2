@@ -2,7 +2,7 @@ spring.datasource:
   url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 #shareable h2 database: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
   username: sa
-  password: sa
+  password: M!tchel0994*
 #spring:
 #    datasource:
 #        url: jdbc:mysql://localhost:3306/profiles_service?createDatabaseIfNotExist=true
@@ -186,6 +186,7 @@ camunda:
 #      tenant-check-enabled: true
 #    process-engine-name: testEngine
 #    history-level: none
+
 
 management:
     endpoint:

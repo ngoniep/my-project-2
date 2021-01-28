@@ -40,6 +40,7 @@ public class LeaveDelegate implements JavaDelegate {
         Date d1 = new SimpleDateFormat("yyyy-M-dd").parse(startDate.toString());
         Date d2 = new SimpleDateFormat("yyyy-M-dd").parse(endDate.toString());
         long diff = d2.getTime() - d1.getTime();*/
+        delegateExecution.setVariable("attachment","");
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         LeaveMonitoring leaveMonitoring = new LeaveMonitoring();
         leaveMonitoring.setEmployee_number((String) delegateExecution.getVariable("employeeNumber"));
@@ -48,8 +49,15 @@ public class LeaveDelegate implements JavaDelegate {
         leaveMonitoring.setComments((String) delegateExecution.getVariable("comment"));
         leaveMonitoring.setDept("Department");
         leaveMonitoring.setStatus("CREATED");
-        leaveMonitoring.setPeriod_from(formatter.parse((String) delegateExecution.getVariable("startDate")));
-        leaveMonitoring.setPeriod_to(formatter.parse((String) delegateExecution.getVariable("endDate")));
+        try {
+            leaveMonitoring.setPeriod_from(formatter.parse((String) delegateExecution.getVariable("startDate")));
+            leaveMonitoring.setPeriod_to(formatter.parse((String) delegateExecution.getVariable("endDate")));
+        }catch (Exception e){
+            formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            leaveMonitoring.setPeriod_from(formatter.parse((String) delegateExecution.getVariable("stDate")));
+            leaveMonitoring.setPeriod_to(formatter.parse((String) delegateExecution.getVariable("eDate")));
+
+        }
 
         double closing_leave_balance = 0;
         long diffInMillies = Math.abs(leaveMonitoring.getPeriod_to().getTime() - leaveMonitoring.getPeriod_from().getTime());

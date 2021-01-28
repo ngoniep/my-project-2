@@ -1,7 +1,10 @@
 package com.camunda.demo.Service;
 
 
-import com.camunda.demo.Model.DTOs.*;
+import com.camunda.demo.Model.DTOs.KairosEnrolResponse;
+import com.camunda.demo.Model.DTOs.KairosEnrollObject;
+import com.camunda.demo.Model.DTOs.KairosRecognizeObject;
+import com.camunda.demo.Model.DTOs.KairosRecognizeResponse;
 import com.camunda.demo.config.MyConfigurations;
 import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public class KairosServices_bk2 {
 
-    @FeignClient(value = "GATEWAY-SERVICE", configuration = MyConfigurations.class,decode404 = true)
+    @FeignClient(value = "GATEWAY-SERVICE-2", configuration = MyConfigurations.class,decode404 = true)
     public interface EnrollmentClient {
 
         @RequestLine("POST " + "/handler/api/facial-recognition/enroll-selfie")

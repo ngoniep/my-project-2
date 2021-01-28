@@ -5,6 +5,7 @@ import com.camunda.demo.BusinessModels.FCBResponse;
 import com.camunda.demo.BusinessModels.PersonDTO;
 import com.camunda.demo.Service.FCBService;
 import com.camunda.demo.Service.PersonFeignService;
+import com.camunda.demo.Service.RegistrarGeneralFeign;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +15,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class FCBTest {
+@Autowired
+    RegistrarGeneralFeign.RegistrarGeneralClient registrarGeneralClient;
 
+@Test
+public void testRGFeign(){
+
+    PersonDTO personDTO=registrarGeneralClient.getPersonalDetails("42243647R71");
+    Assertions.assertThat(personDTO.getSurname()).isEqualTo("WHITE");
+
+}
 
    /* @Autowired
     PersonFeignService.PersonClient identityUpdateFeign;

@@ -1,28 +1,20 @@
 package com.camunda.demo;
 
-import com.camunda.demo.BusinessModels.FCBReport;
 import com.camunda.demo.BusinessModels.SanctionScore;
-import com.camunda.demo.Model.DTOs.Application;
-import com.camunda.demo.Model.ProductApplication;
-import com.camunda.demo.Service.InternalSanctionsService;
-import com.google.gson.Gson;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
+import com.camunda.demo.Service.InternalSanctionSearchFeign;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InternalSanctionsDelegate implements JavaDelegate {
 
-    @Value("${configurations.sanctionsScreening: http://10.170.3.40:9781/kyc-screening-service/screen}")
-    String sanctionsUrl;
+    @Autowired
+    InternalSanctionSearchFeign.InternalSanctionsClient internalSanctionsClient;
+
+//    @Value("${configurations.sanctionsScreening: http://10.170.3.40:9781/kyc-screening-service/screen}")
+//    String sanctionsUrl;
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
@@ -40,7 +32,7 @@ public class InternalSanctionsDelegate implements JavaDelegate {
             middleName=firstNames[1];
         }
         try {
-            OkHttpClient client = new OkHttpClient();
+            /*OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
                     .url(sanctionsUrl+"?firstname="+firstName+"&middlename="+middleName+"&surname="+lastName+"&datOfBirth="+dateOfBirth)
@@ -48,7 +40,9 @@ public class InternalSanctionsDelegate implements JavaDelegate {
                     .build();
             Response response = client.newCall(request).execute();
             Gson gson = new Gson();
-            SanctionScore sanctionScore = gson.fromJson(response.body().string(), SanctionScore.class);
+            SanctionScore sanctionScore = gson.fromJson(response.body().string(), SanctionScore.class);*/
+
+            SanctionScore sanctionScore=internalSanctionsClient.getPersonalDetailsV1(firstName,middleName,lastName,dateOfBirth);
             //System.out.println("result of sanctions is " + sanctionScore);
             delegateExecution.setVariable("sanctionScore", (sanctionScore.getMatchScore()==null)?0.0:sanctionScore.getMatchScore());
         }catch(Exception e){

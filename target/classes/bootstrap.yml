@@ -17,5 +17,9 @@ spring:
         format: yaml
   application:
     name: orchestration-service
+
+  main:
+    allow-bean-definition-overriding=true
 server:
   port: 9090
+
