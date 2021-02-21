@@ -12,10 +12,6 @@
     </parent>
 
     <properties>
-        <version.camunda>7.13.0</version.camunda>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>8</java.version>
         <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
     </properties>
@@ -30,11 +26,11 @@
             <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
             <version>7.13.0</version>
         </dependency>
-        <!-- <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        -->
+        <!--     <dependency>
+                 <groupId>org.springframework.cloud</groupId>
+                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+             </dependency>
+       -->
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
@@ -78,14 +74,6 @@
             <artifactId>unirest-object-mappers-gson</artifactId>
             <version>2.3.08</version>
 
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -154,39 +142,11 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-
-
     </dependencies>
 
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.camunda.connect</groupId>
-                <artifactId>camunda-connect-bom</artifactId>
-                <version>${version.camunda.connect}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-bom</artifactId>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.camunda.connect</groupId>
-                <artifactId>camunda-connect-connectors-all</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.spin</groupId>
-                <artifactId>camunda-spin-bom</artifactId>
-                <version>${version.camunda.spin}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -212,27 +172,14 @@
         </dependencies>
     </dependencyManagement>
 
-
-
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
         <finalName>camunda-bpm-engine</finalName>
     </build>
-
-
-    <repositories>
-        <repository>
-            <id>camunda-bpm-nexus</id>
-            <name>camunda-bpm-nexus</name>
-            <url>https://app.camunda.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
 
 </project>
