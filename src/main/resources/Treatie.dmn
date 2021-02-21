@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_17cg7ba" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <decision id="Decision_0j4rl49t" name="Decision ">
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
+      <input id="input_1" camunda:inputVariable="sumInsured">
+        <inputExpression id="inputExpression_1" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Retention" name="retained" typeRef="double" biodi:width="192" />
+      <output id="OutputClause_10oeo6p" label="FBC Reinsurance" name="fbcRe" typeRef="double" />
+      <output id="OutputClause_0s1m27c" label="Baobab Reinsurance" name="baobabRe" typeRef="double" />
+      <output id="OutputClause_05lb16w" label="Minerva" name="minerva" typeRef="double" />
+      <output id="OutputClause_0rnx933" label="Other" name="other" typeRef="double" />
+      <rule id="DecisionRule_18y2rxj">
+        <inputEntry id="UnaryTests_16pz1z4">
+          <text>&lt;=10000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1emddzp">
+          <text>sumInsured</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02idy4i">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05slr4j">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ns4ccl">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_136g095">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gb7zjo">
+        <inputEntry id="UnaryTests_0m6inv2">
+          <text>&lt;=20000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_086j7sg">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u0rkql">
+          <text>(sumInsured-10000)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1949gjy">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qshkpc">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16opvxi">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14k9ocl">
+        <inputEntry id="UnaryTests_1gnsdk7">
+          <text>&lt;=30000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08c7trq">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06j4ikx">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v8msio">
+          <text>(sumInsured-20000)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jsr13l">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c2xw97">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0aozmnn">
+        <inputEntry id="UnaryTests_11vfx2r">
+          <text>&lt;=40000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0di3ndj">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09ed98k">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0q819qk">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dgwe1m">
+          <text>(sumInsured-30000)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vmznpa">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18k200x">
+        <inputEntry id="UnaryTests_0sro0hk">
+          <text>&gt;40000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hh6xuj">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1peaph2">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1opfw4a">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y5f0er">
+          <text>10000</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ga45p7">
+          <text>(sumInsured-40000)</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

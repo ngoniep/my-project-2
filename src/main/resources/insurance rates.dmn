@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0wqwozj" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <decision id="insuranceRates" name="Decision 1">
+    <decisionTable id="insuranceRatesTable" hitPolicy="FIRST">
+      <input id="InputClause_04szscr" camunda:inputVariable="insuranceType">
+        <inputExpression id="LiteralExpression_1v2ehgl" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" typeRef="string" />
+      <rule id="DecisionRule_0i3ad2w">
+        <inputEntry id="UnaryTests_17c9iyl">
+          <text>"Fire"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0p9yoaw">
+          <text>4</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0he7e10">
+        <inputEntry id="UnaryTests_11pe8h2">
+          <text>"Home"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_112vxbt">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_12fgp4z">
+        <inputEntry id="UnaryTests_1flzezs">
+          <text>"Motor"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1olzqc4">
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1mub5xs">
+        <inputEntry id="UnaryTests_1lgdjzq">
+          <text>"GIT"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06yfpqs">
+          <text>15</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vigl1t">
+        <inputEntry id="UnaryTests_1wh4yqk">
+          <text>"MotorFleet"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_17cvr5o">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07x9aaz">
+        <inputEntry id="UnaryTests_1txnczv">
+          <text>"Marine"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i4ekiz">
+          <text>3</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="insuranceRates">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

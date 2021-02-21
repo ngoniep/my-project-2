@@ -13,7 +13,7 @@ import java.net.Proxy;
 @Service
 public class SMSAlertService {
 
-    @Value("${configurations.zssSMSUrl: https://secure.zss.co.zw/vportal/cnm/vsms/plain}")
+    @Value("${configurations.zssSMSUrl: https://secure1.zss.co.zw/vportal/cnm/vsms/plain}")
     String zssSmsUrl;
 
     @Value("${configurations.userName: sbaera}")
@@ -58,6 +58,19 @@ public class SMSAlertService {
             System.out.println(phoneNumber);
             System.out.println(response.isSuccessful());
             System.out.println("Result of SMS Alert send "+response.message());
+
+            if(response.body().string().contains("-1"))
+            {
+                request = new Request.Builder()
+                    .url(afrosoftSmsUrl+"?user="+afrosoftUserName+"&password="+afrosoftPassword+"&mobiles=" +phoneNumber+"&sms="+message)
+                    .get()
+                    .addHeader("cache-control", "no-cache")
+                    .addHeader("postman-token", "736f7f7f-bd6d-80c8-d387-505796e1f932")
+                    .build();
+                client.newCall(request).execute();
+            }
+
+
 
             return true;
         }catch(Exception e){
