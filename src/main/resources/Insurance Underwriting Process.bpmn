@@ -36,8 +36,15 @@
           <camunda:formField id="firstName" label="First Name" type="string" />
           <camunda:formField id="lastName" label="Last Name" type="string" />
           <camunda:formField id="sumInsured" label="Sum Insured" type="string" />
-          <camunda:formField id="typeOfInsurance" label="Insurance Type" type="string" />
-          <camunda:formField id="policyNumber" label="Policy Number" type="string" />
+          <camunda:formField id="term" label="Term Type" type="enum">
+            <camunda:value id="A" name="Annual" />
+            <camunda:value id="B" name="Bi-Annually" />
+            <camunda:value id="Q" name="Quarterly" />
+            <camunda:value id="T" name="Termly" />
+          </camunda:formField>
+          <camunda:formField id="quoutationNumber" label="Policy Number" type="string" />
+          <camunda:formField id="primaryPhoneNumber" label="Phone Number" type="string" />
+          <camunda:formField id="insuranceType" label="Insurance Type" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0pv625t</bpmn:incoming>
@@ -149,7 +156,7 @@
       <bpmn:incoming>Flow_0001fjn</bpmn:incoming>
       <bpmn:outgoing>Flow_0usgvgh</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1ahueop">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT14M</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="Event_1g33gcc">
@@ -157,7 +164,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0usgvgh" sourceRef="Event_1p4hhgn" targetRef="Activity_00rwke8" />
     <bpmn:sequenceFlow id="Flow_1v887jx" sourceRef="Activity_00rwke8" targetRef="Event_1g33gcc" />
-    <bpmn:serviceTask id="Activity_00rwke8" name="Quotation Canceled" camunda:expression="1==1">
+    <bpmn:serviceTask id="Activity_00rwke8" name="Quotation Canceled" camunda:class="com.camunda.demo.PolicyQuotationCancellationSMSDelegate">
       <bpmn:incoming>Flow_0usgvgh</bpmn:incoming>
       <bpmn:outgoing>Flow_1v887jx</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -207,8 +214,8 @@
         <di:waypoint x="2210" y="750" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0brmygn_di" bpmnElement="Flow_0brmygn">
-        <di:waypoint x="690" y="120" />
-        <di:waypoint x="772" y="120" />
+        <di:waypoint x="690" y="121" />
+        <di:waypoint x="772" y="121" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1v887jx_di" bpmnElement="Flow_1v887jx">
         <di:waypoint x="1190" y="210" />
@@ -243,8 +250,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0pv625t_di" bpmnElement="Flow_0pv625t">
         <di:waypoint x="540" y="302" />
-        <di:waypoint x="540" y="120" />
-        <di:waypoint x="590" y="120" />
+        <di:waypoint x="540" y="121" />
+        <di:waypoint x="590" y="121" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0nmlul3_di" bpmnElement="Flow_0nmlul3">
         <di:waypoint x="420" y="327" />
@@ -257,9 +264,6 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="309" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0myrisg_di" bpmnElement="Activity_0ex0s64">
-        <dc:Bounds x="590" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1rmen6r_di" bpmnElement="Gateway_0kih9o8">
         <dc:Bounds x="515" y="302" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -268,6 +272,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1w6zcfv_di" bpmnElement="Activity_16wbkqb">
         <dc:Bounds x="320" y="287" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0myrisg_di" bpmnElement="Activity_0ex0s64">
+        <dc:Bounds x="590" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lzap3y_di" bpmnElement="Event_1lzap3y">
+        <dc:Bounds x="772" y="103" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0j1f7mw_di" bpmnElement="Activity_0j1f7mw" isExpanded="true">
         <dc:Bounds x="1020" y="280" width="1430" height="390" />
@@ -391,9 +401,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0v2mfef_di" bpmnElement="Activity_00rwke8">
         <dc:Bounds x="1090" y="170" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1lzap3y_di" bpmnElement="Event_1lzap3y">
-        <dc:Bounds x="772" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_18u65sj_di" bpmnElement="Event_18u65sj">
         <dc:Bounds x="2402" y="732" width="36" height="36" />

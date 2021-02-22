@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="applyLeave">
+    <script cam-script type="text/form-script">
+
+      $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.dateFieldOpened = true;
+  };
+
+
+
+	inject([ '$scope', '$http', 'Uri', '$rootScope', function($scope, $http, Uri, $rootScope) {
+
+	 $scope.open = function($event) {
+
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.dateFieldOpened = true;
+  };
+  $scope.open2 = function($event) {
+
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.dateFieldOpened2 = true;
+  };
+
+        camForm.on('variables-fetched', function() {
+		  $scope.userId = $rootScope.authentication.name;
+
+		  $http.get(Uri.appUri("engine://engine/:engine/user/" + $scope.userId + "/profile")).then(function(result){
+            $scope.fullName = result.data.firstName + " " + result.data.lastName;
+            $scope.email = result.data.email
+
+            });
+		});
+
+	}]);
+</script>
+    <h1>Notes:</h1>
+    <ol type="1">
+        <li>The leave form must be clearly marked either ORIGINAL/AMENDED/CANCELLED</li>
+      <li>Sick Leave – Medical Certificates to be produced after 2 days absence (copy to be attached to form)</li>
+        <li>Compassionate Leave – indicate reasons in Remarks column</li>
+       <li>Maternity leave – attach Expected Date of Delivery certificate</li>
+        <li>Study Leave – attach Exam timetable</li>
+        <li>Special Leave – to be approved by  Divisional Director/Executive Director/Managing Director. Indicate reasons in Remarks Column and attach any supporting documents.</li>
+
+
+    </ol>
+
+    <div class="form-group">
+        <label for="policyNumber">Insurance Policy Number </label>
+        <input class="form-control"
+               cam-variable-type="String"
+               ng-model="userId"
+               readonly="true"
+               cam-variable-name="employeeNumber"
+               name="employeeNumber" />
+    </div>
+    <div class="form-group">
+        <label for="employeeName">Employee Name</label>
+        <input class="form-control"
+               cam-variable-type="String"
+               ng-model="fullName"
+               readonly="true"
+               cam-variable-name="employeeName"
+               name="employeeName" />
+    </div>
+
+    <div class="form-group">
+        <label for="employeeEmail">Email</label>
+        <input class="form-control"
+               cam-variable-type="String"
+               ng-model="email"
+               readonly="true"
+               cam-variable-name="employeeEmail"
+               name="employeeEmail" />
+    </div>
+
+    <div class="form-group">
+        <label for="leaveType">Leave Type</label>
+        <select cam-variable-name="leaveType"
+                cam-variable-type="String">
+            <option value="Annual">Annual Leave</option>
+            <option value="Sick">Sick Leave</option>
+            <option value="Study">Study Leave</option>
+            <option value="Special">Special Leave</option>
+            <option value="Compassionate">Compassionate Leave</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <p class="input-group">
+        <input class="form-control"
+               type="text"
+               cam-variable-type="String"
+               uib-datepicker-popup="dd-MM-yyyy"
+               is-open="dateFieldOpened"
+               ng-model="startDate"
+               id="startDate"
+               cam-variable-name="startDate"
+               name="startDate" />
+
+        <span class="input-group-btn">
+    <button type="button"
+            class="btn btn-default"
+            ng-click="open($event)">
+      <i class="glyphicon glyphicon-calendar"></i>
+    </button>
+  </span>
+        </p>
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date</label>
+        <p class="input-group">
+            <input class="form-control"
+                   type="text"
+                   cam-variable-type="String"
+                   uib-datepicker-popup="dd-MM-yyyy"
+                   is-open="dateFieldOpened2"
+                   ng-model="endDate"
+                   id="endDate"
+                   cam-variable-name="endDate"
+                   name="endDate" />
+
+            <span class="input-group-btn">
+    <button type="button"
+            class="btn btn-default"
+            ng-click="open2($event)">
+      <i class="glyphicon glyphicon-calendar"></i>
+    </button>
+  </span>
+        </p>
+
+    </div>
+
+    <div class="form-group">
+        <label for="assignee">Approver</label>
+        <input class="form-control"
+               type="text"
+               id="assignee"
+               cam-variable-type="String"
+               cam-variable-name="assignee"
+               name="assignee" />
+    </div>
+
+    <div class="form-group">
+    <label for="comment">Comments</label>
+    <input class="form-control"
+           type="text"
+           id="comment"
+           cam-variable-type="String"
+           cam-variable-name="comment"
+           name="comment" />
+</div>
+
+    <div class="form-group">
+        <label for="attachment">Quotation 1</label>
+        <input class="form-control"
+               type="file"
+               id="attachment"
+               cam-variable-type="File"
+               cam-variable-name="quotation1"
+               name="attachment" />
+        <div class="help-block">Attach Quotation 1</div>
+    </div>
+
+    <script cam-script type="text/form-script">
+    var fileUpload = $('#attachment');
+    var fileUploadHelpBlock = $('.help-block', fileUpload.parent());
+
+    function flagFileUpload() {
+      var hasFile = fileUpload.get(0).files.length > 0;
+      fileUpload[hasFile ? 'removeClass' : 'addClass']('ng-invalid');
+      fileUploadHelpBlock[hasFile ? 'removeClass' : 'addClass']('error');
+      return hasFile;
+    }
+
+    fileUpload.on('change', function () {
+      flagFileUpload();
+    });
+
+    camForm.on('submit', function(evt) {
+      var hasFile = flagFileUpload();
+
+      // prevent submit if user has not provided a file
+      evt.submitPrevented = !hasFile;
+    });
+  </script>
+</form>
+</body>
+</html>

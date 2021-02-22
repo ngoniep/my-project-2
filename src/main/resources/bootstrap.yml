@@ -1,11 +1,11 @@
 spring:
   cloud:
     consul:
-      host: http://10.170.4.67
+      host: http://localhost
       port: 8500
       discovery:
         prefer-ip-address: true
-        ip-address: 10.170.4.67
+        ip-address: localhost
         health-check-path: /health
         heartbeat:
           ttl-unit: s
